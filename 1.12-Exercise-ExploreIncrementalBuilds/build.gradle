@@ -1,0 +1,38 @@
+/* In this series of exercises you'll explore Gradle's incremental build
+support. You'll be using the same source files used in the last set of
+exercises. After each exercise, take note of the Gradle build output. Remember,
+tasks that are marked UP-TO-DATE are skipped by Gradle because it has been
+determined that no work needed to be done.
+
+Exercises:
+
+1. Run the "copySources" task, which copies files from "src" to "build/out". - Done
+2. Run the "copySources" task again and note it is now UP-TO-DATE. - Done
+3. Modify the contents of one of the files in the "src" directory. - Done
+4. Run the "copySources" task again and note it is no longer UP-TO-DATE. - Done
+5. Delete the "build" directory. - Done
+6. Run the "copySources" task again and note it is no longer UP-TO-DATE. - Done
+7. Run the "bundleSources" task. Note that the "copySources" task is
+still UP-TO-DATE. - Done
+8. Run the "bundleSources" task again and note it is now UP-TO-DATE. - Done
+9. Delete the "build/sources.zip" file. - Done
+10. Run the "bundleSources" task and note it is no longer UP-TO-DATE. - Done
+11. Modify the contents of one of the files in the "src" directory. - Done
+12. Run the "bundleSources" task and note neither task is UP-TO-DATE. - Done
+13. Run the "bundleSources" task again and note both tasks are now UP-TO-DATE. - Done
+14. Delete the "build/out" directory. - Done
+15. Run the "bundleSources" task again and note that only the "bundleSources"
+task is marked as UP-TO-DATE. - Done
+*/
+
+task copySources(type: Copy) {
+    from 'src'
+    into 'build/out'
+}
+
+task bundleSources(type: Zip, dependsOn: copySources) {
+    baseName = 'sources'
+    destinationDir = file('build')
+
+    from 'build/out'
+}
